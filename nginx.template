@@ -62,7 +62,7 @@ http {
             proxy_set_header    X-Forwarded-Proto $scheme;
 
             resolver            127.0.0.11 valid=5s;
-            proxy_pass          "http://$backend_{{ back | short_hash}}";
+            proxy_pass          "http://${backend_{{ back | short_hash}}}";
         }
         
     }
