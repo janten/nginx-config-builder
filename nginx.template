@@ -44,7 +44,6 @@ http {
     server {
         listen                    443 ssl http2;
         server_name               {{ front }};
-        resolver                  127.0.0.11 valid=30s;
         set                       ${{ back | short_hash}} {{ back }};
 
         location / {
@@ -61,6 +60,8 @@ http {
             proxy_set_header    X-Forwarded-Ssl on;
             proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header    X-Forwarded-Proto $scheme;
+
+            resolver            127.0.0.11 valid=5s;
             proxy_pass          http://${{ back | short_hash}};
         }
         
