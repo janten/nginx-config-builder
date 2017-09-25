@@ -4,8 +4,8 @@ from hashlib import sha256
 from jinja2 import Environment, FileSystemLoader
 
 def short_hash(value):
-    byte = value.encode('utf-8')
-    return sha256().hexdigest()[:8]
+    encoded = value.encode('utf-8')
+    return sha256(encoded).hexdigest()[:8]
 
 env = Environment(
     loader=FileSystemLoader('.')
