@@ -44,7 +44,7 @@ http {
     server {
         listen                    443 ssl http2;
         server_name               {{ front }};
-        set                       ${{ back | short_hash}} {{ back }};
+        set                       $backend_{{ back | short_hash}} "{{ back }}";
 
         location / {
             client_max_body_size    0;
@@ -62,7 +62,7 @@ http {
             proxy_set_header    X-Forwarded-Proto $scheme;
 
             resolver            127.0.0.11 valid=5s;
-            proxy_pass          http://${{ back | short_hash}};
+            proxy_pass          "http://$backend_{{ back | short_hash}}";
         }
         
     }
