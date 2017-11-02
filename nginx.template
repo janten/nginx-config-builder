@@ -43,15 +43,14 @@ http {
     {% for front, back in servers.items() %}
 
     upstream "{{ back | short_hash}}" {
-        set            $backend_{{ back | short_hash}} "{{ back }}";
-        server         "$backend_{{ back | short_hash}}";
+        set            $backend{{ back | short_hash}} "{{ back }}";
+        server         "$backend{{ back | short_hash}}";
         keepalive      15;
     }
 
     server {
         listen          443 ssl http2;
         server_name     {{ front }};
-        set             $backend_{{ back | short_hash}} "{{ back }}";
 
         location / {
             proxy_http_version  1.1;
