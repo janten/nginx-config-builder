@@ -42,8 +42,9 @@ http {
 
     {% for front, back in servers.items() %}
 
+    set        $backend{{ back | short_hash}} "{{ back }}";
+
     upstream "{{ back | short_hash}}" {
-        set            $backend{{ back | short_hash}} "{{ back }}";
         server         "$backend{{ back | short_hash}}";
         keepalive      15;
     }
