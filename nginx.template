@@ -9,7 +9,7 @@ events {
 }
 
 http {
-    resolver                127.0.0.11 valid=30s;
+    resolver                128.176.16.55 128.176.16.3;
     chunked_transfer_encoding on;
     
     include                 /etc/nginx/mime.types;
@@ -20,13 +20,13 @@ http {
     access_log              off;
 
     proxy_http_version      1.1;
-    proxy_set_header        Connection "";
     proxy_redirect          off;
-    proxy_set_header        Host            $host;
-    proxy_set_header        X-Real-IP       $remote_addr;
-    proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header        X-Forwarded-Ssl on;
-    proxy_set_header        X-Forwarded-Proto $scheme;
+    proxy_set_header        Connection          "";
+    proxy_set_header        Host                $host;
+    proxy_set_header        X-Real-IP           $remote_addr;
+    proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header        X-Forwarded-Ssl     on;
+    proxy_set_header        X-Forwarded-Proto   $scheme;
     client_max_body_size    10m;
     client_body_buffer_size 128k;
     proxy_connect_timeout   1;
@@ -57,7 +57,7 @@ http {
 
     upstream "us{{ back | short_hash}}" {
         zone            upstream_configs 1m;
-        server          {{ back }} resolve fail_timeout=1m max_fails=2;
+        server          {{ back }} resolve;
         keepalive       15;
     }
 
