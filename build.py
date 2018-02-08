@@ -2,6 +2,7 @@ import json
 import sys
 from hashlib import sha256
 from jinja2 import Environment, FileSystemLoader
+from glob import glob
 
 def short_hash(value):
     encoded = value.encode('utf-8')
@@ -11,6 +12,9 @@ env = Environment(
     loader=FileSystemLoader('.')
 )
 env.filters["short_hash"] = short_hash
-data = json.load(sys.stdin)
+servers = []
+for filename in glob("/sites/*.json"):
+    data = json.load(open(filename))
+    servers.append(data)
 template = env.get_template("nginx.template")
-print(template.render(servers=data))
+print(template.render(servers=servers))

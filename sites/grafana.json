@@ -1,0 +1,5 @@
+{
+	"hostname": "grafana.neuro.ukm.ms",
+	"uses_sso": true,
+	"backends": ["kube.ukm.ms:30117"]
+}
