@@ -70,7 +70,9 @@ http {
 
         {% if server.uses_sso %}
     	auth_request	/internal_auth;
-
+        auth_request_set $user $upstream_http_x_user;       
+        proxy_set_header X-User $user;
+    
     	error_page 401 = @error401;
     	location @error401 {
     		return 302 https://auth.neuro.ukm.ms/login/?f=$scheme://$host$request_uri;
