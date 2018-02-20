@@ -89,7 +89,7 @@ http {
         {% endif %}
 
         location / {
-            {% for header, values in server.add_headers.items() %}
+            {% for header, value in server.add_headers.items() %}
             add_header          "{{ header }}" "{{ value }}";
             {% endfor %}
             proxy_pass          http://us{{ server.hostname | short_hash}};
