@@ -15,8 +15,6 @@ env.filters["short_hash"] = short_hash
 servers = []
 for filename in glob("/sites/*.json"):
     data = json.load(open(filename))
-    if "add_headers" not in data:
-        data["add_headers"] = {}
     servers.append(data)
 template = env.get_template("nginx.template")
 print(template.render(servers=servers))
