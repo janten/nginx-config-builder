@@ -81,7 +81,7 @@ http {
         
     	location = /internal_auth {
     		internal;
-    		proxy_set_header X-Original-URI $request_uri;
+    		proxy_set_header X-Original-URI $scheme://$server_name$request_uri?$query_string;
     		proxy_pass_request_body off;
     		proxy_set_header Content-Length "";
     		proxy_pass http://us{{ "auth.neuro.ukm.ms" | short_hash }}/auth/;
