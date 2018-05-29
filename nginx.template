@@ -90,27 +90,20 @@ http {
 
         location / {
             {% if server.uses_cors %}
-            
-            set $cors "";
-            
-            if ($http_origin ~* (.*\.ukm\.ms)) {
-                set $cors "true";
-            }
-            
-            if ($cors = "true") {
-                add_header 'Access-Control-Allow-Origin' "$http_origin";
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Headers' 'User-Agent,Keep-Alive,Content-Type';
+            # Simple requests
+            if ($request_method ~* "(GET|POST)") {
+              add_header "Access-Control-Allow-Origin"  *;
             }
 
-            if ($request_method = OPTIONS) {
-                add_header 'Content-Type' 'text/plain; charset=utf-8';
-                add_header 'Content-Length' 0;
-                return 204;
+            # Preflighted requests
+            if ($request_method = OPTIONS ) {
+              add_header "Access-Control-Allow-Origin"  *;
+              add_header "Access-Control-Allow-Methods" "GET, POST, OPTIONS, HEAD";
+              add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Requested-With, Content-Type, Accept";
+              return 200;
             }
-            
             {% endif %}
+
             proxy_pass          http://us{{ server.hostname | short_hash}};
         }
     }
